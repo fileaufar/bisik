@@ -67,3 +67,19 @@ export async function addMessage(msg: SecretMessage): Promise<void> {
   }
   devStore.unshift(msg);
 }
+
+// Hapus semua lalu tulis ulang (untuk delete by ID)
+export async function saveAllMessages(msgs: SecretMessage[]): Promise<void> {
+  const redis = await getRedis();
+  if (redis) {
+    await redis.del(KEY);
+    if (msgs.length > 0) {
+      // lpush dengan urutan terbalik agar urutan tetap terjaga
+      for (let i = msgs.length - 1; i >= 0; i--) {
+        await redis.lpush(KEY, msgs[i]);
+      }
+    }
+    return;
+  }
+  devStore = [...msgs];
+}
