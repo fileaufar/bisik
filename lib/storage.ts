@@ -2,6 +2,19 @@ import { SecretMessage } from "./types";
 
 const KEY = "bisik_messages";
 
+// ── Upstash Redis helper ──────────────────────────────────────────
+async function getRedis() {
+  try {
+    const { Redis } = await import("@upstash/redis");
+    return new Redis({
+      url:   process.env.UPSTASH_REDIS_REST_URL!,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+    });
+  } catch {
+    return null;
+  }
+}
+
 // ── Dev fallback (in-memory) ──────────────────────────────────────
 let devStore: SecretMessage[] = [
   {
@@ -34,20 +47,11 @@ let devStore: SecretMessage[] = [
   },
 ];
 
-// ── KV helper ─────────────────────────────────────────────────────
-async function getKV() {
-  try {
-    const { kv } = await import("@vercel/kv");
-    return kv;
-  } catch {
-    return null;
-  }
-}
-
+// ── Public API ────────────────────────────────────────────────────
 export async function getAllMessages(): Promise<SecretMessage[]> {
-  const kv = await getKV();
-  if (kv) {
-    const msgs = await kv.lrange<SecretMessage>(KEY, 0, -1);
+  const redis = await getRedis();
+  if (redis) {
+    const msgs = await redis.lrange<SecretMessage>(KEY, 0, -1);
     return (msgs || []).sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
@@ -56,9 +60,9 @@ export async function getAllMessages(): Promise<SecretMessage[]> {
 }
 
 export async function addMessage(msg: SecretMessage): Promise<void> {
-  const kv = await getKV();
-  if (kv) {
-    await kv.lpush(KEY, msg);
+  const redis = await getRedis();
+  if (redis) {
+    await redis.lpush(KEY, msg);
     return;
   }
   devStore.unshift(msg);
