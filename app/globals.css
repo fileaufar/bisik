@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CUSTOM PROPERTIES ──────────────────────────────────── */
+:root {
+  --cream:  #FFFFFF;
+  --mist:   #BEBFC4;
+  --forest: #213B2A;
+  --bark:   #4A2619;
+
+  --ff: 'Funnel Display', sans-serif;
+  --fp: 'Playfair Display', serif;
+
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 16px;
+  --ease: 200ms ease;
+}
+
+/* ── BASE ────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--forest);
+  font-family: var(--ff);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+::selection { background: var(--forest); color: var(--cream); }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--mist); border-radius: 3px; }
+
+/* ── TYPOGRAPHY ──────────────────────────────────────────── */
+/* Judul kombinasi: tag <em> = Playfair italic, <span> = Funnel */
+.title em  { font-family: var(--fp); font-style: italic; font-weight: 400; }
+.title span { font-family: var(--ff); font-style: normal; font-weight: 600; }
+
+/* ── LAYOUT ──────────────────────────────────────────────── */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  border-bottom: 1px solid rgba(33,59,42,0.08);
+}
+.nav-logo {
+  font-family: var(--fp);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--forest);
+  text-decoration: none;
+}
+.page { max-width: 680px; margin: 0 auto; padding: 64px 24px; }
+
+/* ── CARD ────────────────────────────────────────────────── */
+.card {
+  background: var(--cream);
+  border: 1px solid rgba(33,59,42,0.1);
+  border-radius: var(--r-lg);
+  transition: border-color var(--ease), box-shadow var(--ease);
+}
+.card:hover {
+  border-color: rgba(33,59,42,0.22);
+  box-shadow: 0 4px 20px rgba(33,59,42,0.06);
+}
+
+/* ── BUTTONS ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--ff);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 11px 26px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  transition: all var(--ease);
+  white-space: nowrap;
+}
+.btn-primary { background: var(--forest); color: var(--cream); }
+.btn-primary:hover { background: var(--bark); }
+.btn-outline { background: transparent; color: var(--forest); border: 1.5px solid var(--forest); }
+.btn-outline:hover { background: var(--forest); color: var(--cream); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* ── INPUTS ──────────────────────────────────────────────── */
+.input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid rgba(33,59,42,0.18);
+  font-family: var(--ff);
+  font-size: 1rem;
+  color: var(--forest);
+  padding: 10px 0;
+  outline: none;
+  transition: border-color var(--ease);
+}
+.input::placeholder { color: var(--mist); }
+.input:focus { border-bottom-color: var(--forest); }
+
+.textarea {
+  width: 100%;
+  background: transparent;
+  border: 1.5px solid rgba(33,59,42,0.13);
+  border-radius: var(--r-md);
+  font-family: var(--ff);
+  font-size: 1rem;
+  color: var(--forest);
+  padding: 14px 16px;
+  outline: none;
+  resize: vertical;
+  min-height: 160px;
+  line-height: 1.75;
+  transition: border-color var(--ease);
+}
+.textarea::placeholder { color: var(--mist); }
+.textarea:focus { border-color: var(--forest); }
+
+/* ── BADGE ───────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  font-family: var(--ff);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px solid;
+}
+.badge-admirer { color: var(--bark);   border-color: rgba(74,38,25,0.28);  background: rgba(74,38,25,0.05); }
+.badge-barista { color: var(--forest); border-color: rgba(33,59,42,0.28);  background: rgba(33,59,42,0.05); }
+.badge-friend  { color: #58586a;       border-color: rgba(190,191,196,0.6); background: rgba(190,191,196,0.12); }
+.badge-story   { color: var(--bark);   border-color: rgba(74,38,25,0.2);   background: rgba(74,38,25,0.03); }
+
+/* ── CATEGORY CARD (compose) ─────────────────────────────── */
+.cat-card {
+  padding: 18px 16px;
+  border-radius: var(--r-md);
+  border: 1.5px solid rgba(33,59,42,0.12);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--ease);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.cat-card:hover { border-color: rgba(33,59,42,0.28); }
+.cat-card.active { background: var(--forest); border-color: var(--forest); }
+.cat-card .cat-label { font-family: var(--fp); font-size: 0.92rem; font-style: italic; color: var(--forest); }
+.cat-card.active .cat-label { color: var(--cream); }
+.cat-card .cat-desc  { font-family: var(--ff); font-size: 0.7rem; color: var(--mist); line-height: 1.5; }
+.cat-card.active .cat-desc  { color: rgba(255,255,255,0.6); }
+
+/* ── LABEL ───────────────────────────────────────────────── */
+.label {
+  display: block;
+  font-family: var(--ff);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--forest);
+  margin-bottom: 14px;
+}
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+.footer {
+  padding: 22px 48px;
+  border-top: 1px solid rgba(33,59,42,0.06);
+  text-align: center;
+  font-family: var(--ff);
+  font-size: 0.72rem;
+  color: var(--mist);
+  letter-spacing: 0.05em;
+}
+
+/* ── ANIMATIONS ──────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fu  { animation: fadeUp 0.55s ease forwards; }
+.fu1 { animation: fadeUp 0.55s 0.08s ease forwards; opacity: 0; }
+.fu2 { animation: fadeUp 0.55s 0.16s ease forwards; opacity: 0; }
+.fu3 { animation: fadeUp 0.55s 0.24s ease forwards; opacity: 0; }
+.fu4 { animation: fadeUp 0.55s 0.32s ease forwards; opacity: 0; }
+
+/* ── ERROR BOX ───────────────────────────────────────────── */
+.error-box {
+  padding: 12px 16px;
+  background: rgba(74,38,25,0.06);
+  border: 1px solid rgba(74,38,25,0.18);
+  border-radius: var(--r-sm);
+  font-family: var(--ff);
+  font-size: 0.85rem;
+  color: var(--bark);
+  margin-bottom: 20px;
+}
+
+/* ── MISC ────────────────────────────────────────────────── */
+.muted { font-family: var(--ff); font-size: 0.72rem; color: var(--mist); }
+.divider { width: 36px; height: 1.5px; background: var(--bark); display: block; }
+.sep { width: 100%; height: 1px; background: rgba(33,59,42,0.07); margin: 16px 0; }
+
+@media (max-width: 600px) {
+  .nav { padding: 20px 20px; }
+  .page { padding: 48px 20px; }
+  .footer { padding: 20px; }
+}
