@@ -21,16 +21,20 @@ export async function POST(req: NextRequest) {
     };
 
     const valid: MessageCategory[] = ["admirer", "barista", "friend", "story"];
-    if (!valid.includes(category)) return NextResponse.json({ error: "Kategori tidak valid." }, { status: 400 });
-    if (!content || content.trim().length < 10) return NextResponse.json({ error: "Pesan terlalu pendek (min 10 karakter)." }, { status: 400 });
-    if (content.trim().length > 1000) return NextResponse.json({ error: "Pesan terlalu panjang (maks 1000 karakter)." }, { status: 400 });
-    if (!initials || !initials.trim()) return NextResponse.json({ error: "Inisial wajib diisi." }, { status: 400 });
+    if (!valid.includes(category))
+      return NextResponse.json({ error: "Kategori tidak valid." }, { status: 400 });
+    if (!content || content.trim().length < 10)
+      return NextResponse.json({ error: "Pesan terlalu pendek (min 10 karakter)." }, { status: 400 });
+    if (content.trim().length > 1000)
+      return NextResponse.json({ error: "Pesan terlalu panjang (maks 1000 karakter)." }, { status: 400 });
+    if (!initials || !initials.trim())
+      return NextResponse.json({ error: "Inisial wajib diisi." }, { status: 400 });
 
     const msg: SecretMessage = {
-      id: uuidv4(),
+      id:        uuidv4(),
       category,
-      content: content.trim(),
-      initials: initials.trim().toUpperCase().replace(/[^A-Z.]/g, "").substring(0, 8) || "—",
+      content:   content.trim(),
+      initials:  initials.trim().toUpperCase().replace(/[^A-Z.]/g, "").substring(0, 8) || "—",
       createdAt: new Date().toISOString(),
     };
 
